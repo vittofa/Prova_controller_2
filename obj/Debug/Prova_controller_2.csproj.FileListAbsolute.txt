@@ -1,0 +1,13 @@
+C:\Users\vitto\source\repos\Prova_controller_2\bin\Debug\Prova_controller_2.exe.config
+C:\Users\vitto\source\repos\Prova_controller_2\bin\Debug\Prova_controller_2.exe
+C:\Users\vitto\source\repos\Prova_controller_2\bin\Debug\Prova_controller_2.pdb
+C:\Users\vitto\source\repos\Prova_controller_2\obj\Debug\Prova_controller_2.csprojAssemblyReference.cache
+C:\Users\vitto\source\repos\Prova_controller_2\obj\Debug\Prova_controller_2.Form1.resources
+C:\Users\vitto\source\repos\Prova_controller_2\obj\Debug\Prova_controller_2.Properties.Resources.resources
+C:\Users\vitto\source\repos\Prova_controller_2\obj\Debug\Prova_controller_2.csproj.GenerateResource.cache
+C:\Users\vitto\source\repos\Prova_controller_2\obj\Debug\Prova_controller_2.csproj.CoreCompileInputs.cache
+C:\Users\vitto\source\repos\Prova_controller_2\obj\Debug\Prova_controller_2.exe
+C:\Users\vitto\source\repos\Prova_controller_2\obj\Debug\Prova_controller_2.pdb
+C:\Users\vitto\source\repos\Prova_controller_2\bin\Debug\System.Runtime.WindowsRuntime.dll
+C:\Users\vitto\source\repos\Prova_controller_2\bin\Debug\System.Runtime.WindowsRuntime.xml
+C:\Users\vitto\source\repos\Prova_controller_2\obj\Debug\Prova_controller_2.csproj.CopyComplete
