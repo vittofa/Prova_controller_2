@@ -41,43 +41,75 @@ namespace Prova_controller_2
                 label1.Text = Reading.LeftThumbstickX.ToString();
                 label2.Text = Reading.LeftThumbstickY.ToString();
 
+                label8.Text = Reading.RightThumbstickX.ToString();
+                label7.Text = Reading.RightThumbstickY.ToString();
+
+                label11.Text = Reading.RightTrigger.ToString();
+                label12.Text = Reading.LeftTrigger.ToString();
+
+                int speed = trackBar1.Value;
+
                 if(Reading.LeftThumbstickX > 0.1)
                 {
-                    Rec.moveObj(this.CreateGraphics(), Rec.x = Rec.x + (int)(Math.Sqrt(30*Reading.LeftThumbstickX)), Rec.y = Rec.y + 0);
+                    if(Rec.moveObj(this.CreateGraphics(), Rec.x = Rec.x + (int)(Math.Sqrt(speed * Reading.LeftThumbstickX)), Rec.y = Rec.y + 0, this.Width, this.Height))
+                    {
+                        await Vibrate();
+                    }
                 }
                 else if (Reading.LeftThumbstickX < -0.1)
                 {
-                    Rec.moveObj(this.CreateGraphics(), Rec.x = Rec.x - (int)(Math.Sqrt((-30) *Reading.LeftThumbstickX)), Rec.y = Rec.y + 0);
+                    if(Rec.moveObj(this.CreateGraphics(), Rec.x = Rec.x - (int)(Math.Sqrt((-speed) *Reading.LeftThumbstickX)), Rec.y = Rec.y + 0, this.Width, this.Height))
+                    {
+                        await Vibrate();
+                    }
                 }
 
                 if (Reading.LeftThumbstickY > 0.1)
                 {
-                    Rec.moveObj(this.CreateGraphics(), Rec.x = Rec.x + 0, Rec.y = Rec.y - (int)(Math.Sqrt(30 * Reading.LeftThumbstickY)));
+                    if(Rec.moveObj(this.CreateGraphics(), Rec.x = Rec.x + 0, Rec.y = Rec.y - (int)(Math.Sqrt(speed * Reading.LeftThumbstickY)), this.Width, this.Height))
+                    {
+                        await Vibrate();
+                    }
                 }
                 else if (Reading.LeftThumbstickY < -0.1)
                 {
-                    Rec.moveObj(this.CreateGraphics(), Rec.x = Rec.x + 0, Rec.y = Rec.y + (int)(Math.Sqrt((-30) *Reading.LeftThumbstickY)));
+                    if(Rec.moveObj(this.CreateGraphics(), Rec.x = Rec.x + 0, Rec.y = Rec.y + (int)(Math.Sqrt((-speed) * Reading.LeftThumbstickY)), this.Width, this.Height))
+                    {
+                        await Vibrate();
+                    }
                 }
 
                 if (Reading.Buttons == GamepadButtons.DPadUp)
                 {
                     await Log("Button DPadUp pressed");
-                    Rec.moveObj(this.CreateGraphics(), Rec.x = Rec.x + 0, Rec.y = Rec.y - 10);
+                    if(Rec.moveObj(this.CreateGraphics(), Rec.x = Rec.x + 0, Rec.y = Rec.y - 10, this.Width, this.Height))
+                    {
+
+                    }
                 }
                 if (Reading.Buttons == GamepadButtons.DPadRight)
                 {
                     await Log("Button DPadRight pressed");
-                    Rec.moveObj(this.CreateGraphics(), Rec.x = Rec.x + 10, Rec.y = Rec.y + 0);
+                    if(Rec.moveObj(this.CreateGraphics(), Rec.x = Rec.x + 10, Rec.y = Rec.y + 0, this.Width, this.Height))
+                    {
+
+                    }
                 }
                 if (Reading.Buttons == GamepadButtons.DPadDown)
                 {
                     await Log("Button DPadDown pressed");
-                    Rec.moveObj(this.CreateGraphics(), Rec.x = Rec.x + 0, Rec.y = Rec.y + 10);
+                    if(Rec.moveObj(this.CreateGraphics(), Rec.x = Rec.x + 0, Rec.y = Rec.y + 10, this.Width, this.Height))
+                    {
+
+                    }
                 }
                 if (Reading.Buttons == GamepadButtons.DPadLeft)
                 {
                     await Log("Button DPadLeft pressed");
-                    Rec.moveObj(this.CreateGraphics(), Rec.x = Rec.x - 10, Rec.y = Rec.y + 0);
+                    if(Rec.moveObj(this.CreateGraphics(), Rec.x = Rec.x - 10, Rec.y = Rec.y + 0, this.Width, this.Height))
+                    {
+
+                    }
                 }
 
                 if (Reading.Buttons == GamepadButtons.A)
@@ -103,6 +135,7 @@ namespace Prova_controller_2
                 if (Reading.Buttons == GamepadButtons.X)
                 {
                     await Log("Button X pressed");
+                    await Log("Width: " + this.Width.ToString() + " Height: " + this.Height);
                 }
                 if (Reading.Buttons == GamepadButtons.Y)
                 {
@@ -137,7 +170,7 @@ namespace Prova_controller_2
         {
             toolStripStatusLabel1.Text = "";
             this.WindowState = FormWindowState.Normal;
-            Rec.CreateShape(this.CreateGraphics(), 250, 250, Brushes.Blue, 25);
+            Rec.CreateShape(this.CreateGraphics(), 250, 250, Brushes.Red, 25);
         }
 
         private async void button1_Click(object sender, EventArgs e)
@@ -153,7 +186,7 @@ namespace Prova_controller_2
                 gv.LeftMotor = 1;
                 gv.RightMotor = 1;
                 Controller.Vibration = gv;
-                await Task.Delay(500);
+                await Task.Delay(250);
                 gv.LeftMotor = 0;
                 gv.RightMotor = 0;
                 Controller.Vibration = gv;
@@ -170,6 +203,7 @@ namespace Prova_controller_2
         public int y;
         public int size;
         private Brush b;
+        
         public obj(Color defaultFormColor)
         {
             this.defaultFormColor = defaultFormColor;
@@ -185,10 +219,38 @@ namespace Prova_controller_2
             this.size = Size;
         }
 
-        public void moveObj(Graphics G, int X, int Y)
+        public bool moveObj(Graphics G, int X, int Y, int width, int height)
         {
+            bool retVal = false;
+            if (X < 0 )
+            {
+                X = 0;
+                this.x = 0;
+                retVal = true;
+            }
+            if(Y < 0)
+            {
+                Y = 0;
+                this.y = 0;
+                retVal = true;
+            }
+            if(X + this.size > (width - 15))
+            {
+                X = width- 15 - this.size;
+                this.x = X;
+                retVal = true;
+            }
+            if (Y + this.size > (height - 60))
+            {
+                Y = height - 60 - this.size;
+                this.y = Y;
+                retVal = true;
+            }
+
+            //Draw new Rectangle
             G.Clear(this.defaultFormColor);
             CreateShape(G, X, Y, this.b, this.size);
+            return retVal;
         }
 
         public void increaseSize(Graphics G, int SIZE)
@@ -196,5 +258,6 @@ namespace Prova_controller_2
             G.Clear(this.defaultFormColor);
             CreateShape(G, this.x, this.y, this.b, SIZE);
         }
+
     }
 }
