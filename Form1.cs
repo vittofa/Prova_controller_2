@@ -220,11 +220,11 @@ namespace Prova_controller_2
                         gv.LeftMotor = Vibration;
                         gv.RightMotor = Vibration;
                         Controller.Vibration = gv;
+                        VibrationOLD = Vibration;
                     }
                 }
             }
         }
-
     }
 
     class obj
