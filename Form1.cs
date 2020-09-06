@@ -19,6 +19,12 @@ namespace Prova_controller_2
         Gamepad Controller;
         Timer tim = new Timer();
 
+
+        GamepadVibration gv = new GamepadVibration();
+        int Vibration = 0;
+        int VibrationOLD = 0;
+        
+        
         public Form1()
         {
             InitializeComponent();
@@ -30,6 +36,8 @@ namespace Prova_controller_2
             tim.Tick += T_Tick;
             tim.Interval = 1;
             tim.Start();
+
+
         }
 
         private async void T_Tick(object sender, EventArgs e)
@@ -53,14 +61,24 @@ namespace Prova_controller_2
                 {
                     if(Rec.moveObj(this.CreateGraphics(), Rec.x = Rec.x + (int)(Math.Sqrt(speed * Reading.LeftThumbstickX)), Rec.y = Rec.y + 0, this.Width, this.Height))
                     {
-                        await Vibrate();
+                        //await Vibrate();
+                        Vibration = 1;
+                    }
+                    else
+                    {
+                        Vibration = 0;
                     }
                 }
                 else if (Reading.LeftThumbstickX < -0.1)
                 {
                     if(Rec.moveObj(this.CreateGraphics(), Rec.x = Rec.x - (int)(Math.Sqrt((-speed) *Reading.LeftThumbstickX)), Rec.y = Rec.y + 0, this.Width, this.Height))
                     {
-                        await Vibrate();
+                        //await Vibrate();
+                        Vibration = 1;
+                    }
+                    else
+                    {
+                        Vibration = 0;
                     }
                 }
 
@@ -68,14 +86,24 @@ namespace Prova_controller_2
                 {
                     if(Rec.moveObj(this.CreateGraphics(), Rec.x = Rec.x + 0, Rec.y = Rec.y - (int)(Math.Sqrt(speed * Reading.LeftThumbstickY)), this.Width, this.Height))
                     {
-                        await Vibrate();
+                        //await Vibrate();
+                        Vibration = 1;
+                    }
+                    else
+                    {
+                        Vibration = 0;
                     }
                 }
                 else if (Reading.LeftThumbstickY < -0.1)
                 {
                     if(Rec.moveObj(this.CreateGraphics(), Rec.x = Rec.x + 0, Rec.y = Rec.y + (int)(Math.Sqrt((-speed) * Reading.LeftThumbstickY)), this.Width, this.Height))
                     {
-                        await Vibrate();
+                        //await Vibrate();
+                        Vibration = 1;
+                    }
+                    else
+                    {
+                        Vibration = 0;
                     }
                 }
 
@@ -171,25 +199,29 @@ namespace Prova_controller_2
             toolStripStatusLabel1.Text = "";
             this.WindowState = FormWindowState.Normal;
             Rec.CreateShape(this.CreateGraphics(), 250, 250, Brushes.Red, 25);
+            Task taskVibrazione = new Task(this.Vibrate);
+            taskVibrazione.Start();
         }
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            await Vibrate();
+            //await Vibrate();
         }
 
-        private async Task Vibrate()
+        [STAThread]
+        private void Vibrate()
         {
-            if (Controller != null)
+            while (true)
             {
-                GamepadVibration gv = new GamepadVibration();
-                gv.LeftMotor = 1;
-                gv.RightMotor = 1;
-                Controller.Vibration = gv;
-                await Task.Delay(250);
-                gv.LeftMotor = 0;
-                gv.RightMotor = 0;
-                Controller.Vibration = gv;
+                if (Controller != null)
+                {
+                    if(Vibration != VibrationOLD)
+                    {
+                        gv.LeftMotor = Vibration;
+                        gv.RightMotor = Vibration;
+                        Controller.Vibration = gv;
+                    }
+                }
             }
         }
 
