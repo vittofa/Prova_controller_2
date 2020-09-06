@@ -206,6 +206,13 @@ namespace Prova_controller_2
         private async void button1_Click(object sender, EventArgs e)
         {
             //await Vibrate();
+            gv.LeftMotor = 1;
+            gv.RightMotor = 1;
+            Controller.Vibration = gv;
+            await Task.Delay(250);
+            gv.LeftMotor = 0;
+            gv.RightMotor = 0;
+            Controller.Vibration = gv;
         }
 
         [STAThread]
