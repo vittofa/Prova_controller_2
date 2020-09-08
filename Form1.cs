@@ -40,6 +40,9 @@ namespace Prova_controller_2
 
         }
 
+        public int speed = 10;
+        public int increment = 1;
+
         private async void T_Tick(object sender, EventArgs e)
         {
             if(Gamepad.Gamepads.Count() > 0)
@@ -55,11 +58,11 @@ namespace Prova_controller_2
                 label11.Text = Reading.RightTrigger.ToString();
                 label12.Text = Reading.LeftTrigger.ToString();
 
-                int speed = trackBar1.Value;
+                
 
                 if(Reading.LeftThumbstickX > 0.1)
                 {
-                    if(Rec.moveObj(this.CreateGraphics(), Rec.x = Rec.x + (int)(Math.Sqrt(speed * Reading.LeftThumbstickX)), Rec.y = Rec.y + 0, this.Width, this.Height))
+                    if(Rec.moveObj(this.CreateGraphics(), Rec.x = Rec.x + (int)(speed * Math.Sin((Reading.LeftThumbstickX-0.1)*(Math.PI/2))), Rec.y = Rec.y + 0, this.Width, this.Height))
                     {
                         //await Vibrate();
                         Vibration = 1;
@@ -71,7 +74,7 @@ namespace Prova_controller_2
                 }
                 else if (Reading.LeftThumbstickX < -0.1)
                 {
-                    if(Rec.moveObj(this.CreateGraphics(), Rec.x = Rec.x - (int)(Math.Sqrt((-speed) *Reading.LeftThumbstickX)), Rec.y = Rec.y + 0, this.Width, this.Height))
+                    if(Rec.moveObj(this.CreateGraphics(), Rec.x = Rec.x - (int)((-speed) * Math.Sin((Reading.LeftThumbstickX+0.1) * (Math.PI / 2))), Rec.y = Rec.y + 0, this.Width, this.Height))
                     {
                         //await Vibrate();
                         Vibration = 1;
@@ -84,7 +87,7 @@ namespace Prova_controller_2
 
                 if (Reading.LeftThumbstickY > 0.1)
                 {
-                    if(Rec.moveObj(this.CreateGraphics(), Rec.x = Rec.x + 0, Rec.y = Rec.y - (int)(Math.Sqrt(speed * Reading.LeftThumbstickY)), this.Width, this.Height))
+                    if(Rec.moveObj(this.CreateGraphics(), Rec.x = Rec.x + 0, Rec.y = Rec.y - (int)(speed * Math.Sin((Reading.LeftThumbstickY - 0.1) * (Math.PI / 2))), this.Width, this.Height))
                     {
                         //await Vibrate();
                         Vibration = 1;
@@ -96,7 +99,7 @@ namespace Prova_controller_2
                 }
                 else if (Reading.LeftThumbstickY < -0.1)
                 {
-                    if(Rec.moveObj(this.CreateGraphics(), Rec.x = Rec.x + 0, Rec.y = Rec.y + (int)(Math.Sqrt((-speed) * Reading.LeftThumbstickY)), this.Width, this.Height))
+                    if(Rec.moveObj(this.CreateGraphics(), Rec.x = Rec.x + 0, Rec.y = Rec.y + (int)((-speed) * Math.Sin((Reading.LeftThumbstickY + 0.1) * (Math.PI / 2))), this.Width, this.Height))
                     {
                         //await Vibrate();
                         Vibration = 1;
@@ -139,7 +142,17 @@ namespace Prova_controller_2
 
                     }
                 }
-
+                if (Reading.Buttons == GamepadButtons.LeftShoulder)
+                {
+                    await Log("Button LeftShulder pressed");
+                    speed -= increment;
+                    
+                }
+                if (Reading.Buttons == GamepadButtons.RightShoulder)
+                {
+                    await Log("Button RightShoulder pressed");
+                    speed += increment;
+                }
                 if (Reading.Buttons == GamepadButtons.A)
                 {
                     await Log("Button A pressed");
