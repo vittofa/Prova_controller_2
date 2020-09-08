@@ -40,8 +40,8 @@ namespace Prova_controller_2
 
         }
 
-        public int speed = 10;
-        public int increment = 1;
+        public float speed = 10;
+        public float increment = 0.1f;
 
         private async void T_Tick(object sender, EventArgs e)
         {
@@ -58,7 +58,7 @@ namespace Prova_controller_2
                 label11.Text = Reading.RightTrigger.ToString();
                 label12.Text = Reading.LeftTrigger.ToString();
 
-                
+                label14.Text = speed.ToString();
 
                 if(Reading.LeftThumbstickX > 0.1)
                 {
